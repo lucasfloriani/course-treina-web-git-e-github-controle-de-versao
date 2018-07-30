@@ -99,3 +99,62 @@ Tudo que é armazenado no git, por fim, recebe uma assinatura única que identif
 Temos que ter em mente que tudo no git é associado a um hash único e não repetido
 
 Ao trabalhas com o git nós só estamos acessando atalhos para esse hash.
+
+## Configurando o Git
+
+### Listando informações atuais do Git em sua maquina
+
+```md
+git config --list
+```
+
+### Adicionando dados de usuário
+
+```md
+git config --global user.name treinaweb-git
+git config --global user.email treinaweb@outlook.com
+```
+
+### Verificar se existe chave SSH já criada
+
+```md
+ls -al ~/.ssh
+```
+
+### Criando chave SSH
+
+```md
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+```
+
+OBS: Ao criar a chave SSH podemos adicionar uma senha.
+
+### Adicionando chave SSH
+
+Habilitar o uso de chave SSH:
+
+```md
+eval "$(ssh-agent -s)"
+```
+
+Adicionar a chave SSH:
+
+```md
+ssh-add ~/.ssh/id_rsa
+```
+
+### Verificar chave SSH
+
+Realiza o ctrl + c na chave SSH
+
+```md
+clip < ~/.ssh/id_rsa.pub
+```
+
+## Commandos
+
+### Verificar versão
+
+```md
+git --version
+```
