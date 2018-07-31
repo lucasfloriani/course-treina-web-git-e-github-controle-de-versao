@@ -92,7 +92,7 @@ Já com o git, como os repositórios são descentralizados, o repositório local
 
 Tudo que é armazenado no git, por fim, recebe uma assinatura única que identifica o estado daquela alteração. Esse pacote de alterações é o que chamamos de git object, uma estrutura simples de chave e valor que recebe um hash único do tipo SHA-1.
 
-```md
+```bash
 84b1da6351252587aa492b52f8696cd6d3b00373
 ```
 
@@ -104,27 +104,27 @@ Ao trabalhas com o git nós só estamos acessando atalhos para esse hash.
 
 ### Listando as configurações existentes
 
-```md
+```bash
 git config --list
 git config [--global] -l
 ```
 
 ### Adicionando dados de usuário
 
-```md
+```bash
 git config --global user.name treinaweb-git
 git config --global user.email treinaweb@outlook.com
 ```
 
 ### Verificar se existe chave SSH já criada
 
-```md
+```bash
 ls -al ~/.ssh
 ```
 
 ### Criando chave SSH
 
-```md
+```bash
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ```
 
@@ -134,13 +134,13 @@ OBS: Ao criar a chave SSH podemos adicionar uma senha.
 
 Habilitar o uso de chave SSH:
 
-```md
+```bash
 eval "$(ssh-agent -s)"
 ```
 
 Adicionar a chave SSH:
 
-```md
+```bash
 ssh-add ~/.ssh/id_rsa
 ```
 
@@ -148,7 +148,7 @@ ssh-add ~/.ssh/id_rsa
 
 Realiza o ctrl + c na chave SSH
 
-```md
+```bash
 clip < ~/.ssh/id_rsa.pub
 ```
 
@@ -205,25 +205,13 @@ Executando **git commit** rotulando assim os arquivos do staged e deixando no re
 
 ![Fluxo Padrão](imagens/fluxo-padrao.png)
 
-## Commandos
-
-### Verificar versão do git instalada
-
-```md
-git --version
-```
-
-### Listar commit executados
-
-```md
-git log
-```
+## Iniciando um repositório
 
 ### Criar repositório localmente
 
 Inicia um repositório vazio em sua máquina, adicionando uma pasta chamada ".git"
 
-```md
+```bash
 git init
 ```
 
@@ -235,38 +223,103 @@ Um repositório bare não contem um working directory com checkout de código, e
 
 Usado para quando precisamos criar um servidor Git.
 
-```md
+```bash
 git init --bare
 ```
 
 Para subir um repositório já iniciado na sua máquina para o github, podemos utilizar o comando abaixo para relacionar o repositório criado na nossa máquina, com o repositório presente no github
 
-```md
+```bash
 git remote add origin url-do-repositorio
 ```
 
 Após isto só é preciso enviar os dados deste repositório para o github:
 
-```md
+```bash
 git push -u origin master
 ```
 
 ### Copiando um repositório para sua máquina
 
-```md
+```bash
 git clone url-do-repositorio
 ```
 
-### Adicionar arquivos editados como staged
+## Comandos comuns
 
-```md
+### Status
+
+Mostra o estado que os arquivos do repositório estão, alem de informar os próximos passos a serem realizados.
+
+```bash
+git status
+```
+
+Para um status mais resumido podemos usar o seguinte comando:
+
+```bash
+git status -s
+git status -short
+```
+
+### Add
+
+Adicionar arquivos editados para o staged
+
+```bash
 git add [<nome-dos-arquivos-editados>...]
 // Para adicionar tudo
 git add .
 ```
 
-### Juntar arquivos no staged como um grupo de alterações
+### Commit
 
-```md
-git commit -m "Explicação das alterações executadas nos arquivos do staged"
+Junta os arquivos no staged como um grupo de alterações e grava isto no repositório local.
+
+```bash
+git commit [-m "Explicação das alterações executadas nos arquivos do staged"]
+```
+
+Caso queira adicionar diretamente todos os arquivos alterações do workspace como um commit para o repositório local, sem a utilização do **git add**, podemos utilizar o seguinte comando:
+
+```bash
+git commit -a [-m "Explicação das alterações executadas nos arquivos do staged"]
+```
+
+### Push
+
+Envia os commits gravados no repositório local para o repositório remoto, onde o origin é o remote e o master é a branch.
+
+```bash
+git push [origin master]
+```
+
+### Pull
+
+Recebe os commits (alterações) que estão no repositório remoto para o repositório local.
+
+```bash
+git pull [origin master]
+```
+
+### Fetch
+
+Atualiza as referencias com um repositório remoto
+
+```bash
+git fetch origin
+```
+
+## Commandos Extras
+
+### Verificar versão do git instalada
+
+```bash
+git --version
+```
+
+### Listar commit executados
+
+```bash
+git log
 ```
