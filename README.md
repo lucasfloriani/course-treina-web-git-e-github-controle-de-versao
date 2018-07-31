@@ -455,6 +455,62 @@ Diferente de outros sistemas de versionamento, as branches são simplesmente pon
 
 Tenha em mente também a hierarquia criada pelos commits. Um commit não pertence a uma branch, pois o mesmo é só uma referência a uma hierarquia de snapshots, que podem ser combinados de volta com a branch de origem (merge). Ao criar o merge, os commits seguintes terão um mesmo commit base e a referência da branch anterior deixa de existir.
 
+### Tipos de Fluxos
+
+Existem basicamente dois tipos de fluxos que podemos utilizar, o gluxo de merge e o fluxo do rebase.
+
+O **fluxo de merge** é o que utiliza o 3-Way Merge, ou seja, toda vez que um branch é mergeado ele adiciona um terceiro commit referente a união de 2 branches, conforme a imagem abaixo:
+
+![Merge](imagens/merge.png)
+
+Já o fluxo de rebase apenas um commit é criado sem manter o histórico da existência de uma outra branch, o que também é conhecido como histórico linear. Veja a imagem abaixo:
+
+![Rebase](imagens/rebase.png)
+
+### Merge
+
+#### Tipos de Branches
+
+Podemos dividir as branchs em algumas categorias:
+
+* **Branches Pública e Local**: Quando criamos uma branch em nosso repositório local, podemos ou não enviá-la para um repositório remoto. Caso essa branch seja enviada para outro repositório ela passa a ser uma branch pública. Por ser uma branch onde outros usuários podem basear seus trabalhos, temos que tomar cuidado ao modificar o histórico dos commits.
+
+* **Temporárias ou Permanentes**: Na questão de duração de uma branch, ela pode ter sido criada para uma funcionalidade específica para depois ser combinada ou essa branch pode existir durante todo o ciclo de vida do projeto, dependendo da estratégia adotada. Um exemplo de uma branch permanente comum é a branch _master_ e cada funcionalidade pode ser criada numa branch temporária, como uma _feature/*_
+
+Outro ponto importante é a forma como combinamos essas branches. Temos duas formas para isso, usando um workflow baseado em _merge_ ou baseado em _rebase_, como veremos a seguir.
+
+#### Utilizando o merge
+
+Utilizado para combinar dois branches.
+
+Entra na branch que deseja que os arquivos alterados sejam enviados
+
+```bash
+git checkout <nome-da-branch-1>
+```
+
+E após isto combina com uma outra branch
+
+```bash
+git merge [no-ff] <nome-da-branch-2>
+```
+
+Dependendo dos commits das duas branches, na hora de efetuar o merge podemos ter duas situações: um merge do tipo **fast forward** ou outro com um commit de merge (**3-way merge**).
+
+#### Fast Foward
+
+O merge por **fast forward** simplesmente move a referencia da branch que estamos trabalhando com o HEAD da branch a ser combinada. Isso gera um histórico de commits linear.
+
+![Fast Forward Before And After](imagens/fast-forward-before-and-after.png)
+
+Como a branch _some feature_ tem como origem o HEAD do master, ao efetuar o merge só é preciso mover a referência do master para o novo commit (HEAD de _some feature_).
+
+#### 3-Way Merge
+
+Mas em alguns casos não será possível combinar as branches com fast forward, principalmente se a branch corrente tiver novos commits que não fazem parte da branch a ser combinada. Nessas situações o git utiliza um commit extra que junta essas duas branches distintas. Esse tipo de merge é conhecido também como _3-way merge_ pois ele utiliza 3 commits para gerar o merge, o HEAD das duas branches e o commit de merge que junta essas duas branches.
+
+![3 Way Merge](imagens/3-way-merge.png)
+
 ## Commandos Extras
 
 ### Verificar versão do git instalada
