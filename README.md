@@ -177,7 +177,29 @@ O fluxo abaixo demonstra os estados que os arquivos podem estar dentro de nosso 
 * **Modified**: Arquivo modificado;
 * **Staged**: Arquivo adicionado ao staged com o commando **git add**.
 
-![fluxo dos arquivos no git](imagens/fluxo-arquivos-do-git.png)
+![Fluxo dos arquivos no git](imagens/fluxo-arquivos-do-git.png)
+
+## Mudanças de estados entre arquivos
+
+Para entender melhor, considere um arquivo já commitado para o repositório do git com o nome legumes.txt.
+
+Esse arquivo tem o seguinte conteudo:
+
+![Legumes](imagens/legumes.png)
+
+De acordo com os comandos do git que formos executando, esse conteúdo vai se alterar em cada uma das áreas:
+
+Modificando o arquivo no sistema (working dir):
+
+![Legumes Working Dir](imagens/legumes-working-dir.png)
+
+Executando **git add**
+
+![Legumes Staging](imagens/legumes-staging.png)
+
+Executando **git commit** rotulando assim os arquivos do staged e deixando no repositório local.
+
+![Legumes Repository](imagens/legumes-repository.png)
 
 ## Commandos
 
