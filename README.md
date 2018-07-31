@@ -381,6 +381,80 @@ Ignora todos os arquivos **.pdf** na árvore **doc/**
 doc/**/*.pdf
 ```
 
+## Branches
+
+Um dos pontos chave para trabalhar com git é entender o conceito de branches. Com ele podemos criar toda uma linha de commits e trabalhar em diferentes linhas de desenvolvimento.
+
+Entenda como linhas de desenvolvimento o conjunto de alterações em conteúdos do projeto na forma de commits, gerando entre eles uma relação de hierarquia, como os commits em cinza, onde um se interliga ao outro. Esses commits acabam gerando uma espécie de árvore, onde cada ramificação (branch) vai se espalhando a partir de um ponto base:
+
+![Branche](imagens/branche.png)
+
+Representação de um branch (em amarelo).
+
+### Criando uma branch
+
+Criamos uma outra branch a partir dos arquivos da branch que estamos atualmente utilizando o seguinte código:
+
+```bash
+git branch <nome-da-nova-branch>
+```
+
+### Criar uma branch e mudar para ela
+
+```bash
+git checkout -b <nome-da-branch>
+```
+
+### Listar as branchs criadas
+
+Ao listar as branch criadas, podemos ver qual a branch na qual estamos situado.
+
+```bash
+git branch
+```
+
+### Mudar de branch
+
+```bash
+git checkout <nome-da-brach-criada>
+// Retornar para branch anterior da atual acessada
+git checkout -
+```
+
+### Sincronizar branch criada no repositório local com o repositório remoto
+
+Ao realizar a sincronização, a branch criada será adicionada ao repositório remoto, contendo assim a sua referência.
+
+```bash
+git push --set-upstream origin <nome-da-branch>
+```
+
+### Remover branch
+
+Para remover a branch do repositório local, primeiro temos que sair da branch a ser removida.
+Após isto podemos executar o comando a seguir
+
+```bash
+git branch --delete <nome-da-branch>
+git branch -d <nome-da-branch>
+```
+
+Agora para remover a branch do repositório remoto, usamos o seguinte código:
+
+```bash
+git push --delete origin <nome-da-branch>
+```
+
+### Curiosidades
+
+A referência HEAD no git é dinâmica e aponta para o último commit da branch atual.
+
+Diferente de outros sistemas de versionamento, as branches são simplesmente ponteiros para um commit (snapshot) em nosso repositório. Logo a criação de muitas branches não influência no tamanho do repositório tão pouco no seu desempenho.
+
+![HEAD Reference](imagens/head-reference.png)
+
+Tenha em mente também a hierarquia criada pelos commits. Um commit não pertence a uma branch, pois o mesmo é só uma referência a uma hierarquia de snapshots, que podem ser combinados de volta com a branch de origem (merge). Ao criar o merge, os commits seguintes terão um mesmo commit base e a referência da branch anterior deixa de existir.
+
 ## Commandos Extras
 
 ### Verificar versão do git instalada
