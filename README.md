@@ -102,10 +102,11 @@ Ao trabalhas com o git nós só estamos acessando atalhos para esse hash.
 
 ## Configurando o Git
 
-### Listando informações atuais do Git em sua maquina
+### Listando as configurações existentes
 
 ```md
 git config --list
+git config [--global] -l
 ```
 
 ### Adicionando dados de usuário
@@ -151,10 +152,95 @@ Realiza o ctrl + c na chave SSH
 clip < ~/.ssh/id_rsa.pub
 ```
 
+## Fluxo de trabalho com git
+
+Até que as alterações realizadas nos arquivos cheguem ao repositório, elas precisam passar por algumas etapas.
+
+* Modificamos os arquivos no nosso diretório local (working directory)
+* Colocamos essas modificações em uma área de staging
+* Movemos toda a área de staging na forma de commit no repositório
+
+De forma geral, utilizamos o git para fazer essas modificações entre estados dos arquivos, como vemos no gráfico abaixo:
+
+![Fluxo de trabalho com git](imagens/fluxo-do-git.png)
+
+O working directory são os arquivos que visualizamos ao navegar em nosso diretório usando o navegador de arquivos do nosso sistema operacional. A medida que vamos trabalhando vamos adicionando essas modificações para a área de staging e por fim podemos enviar para o repositório do git. É possível fazer também o fluxo contrário e alterar os arquivos do disco com o conteúdo do repositório, chamando esse processo de checkout.
+
+Podemos até considerer os casos de novos arquivos que ainda não foram monitorados pelo git. Detalhando o fluxo anterior, imagine as iterações que podem ocorrer entre o working directory e nossa área de staging.
+
+Usamos o commando git status para analisar as diferenças entre o que está no staging com nosso repository e o working directory.
+
+O fluxo abaixo demonstra os estados que os arquivos podem estar dentro de nosso projeto utilizando o **git status**:
+
+* **Untracked**: Novo arquivo;
+* **Unmodified**: Arquivo não modificado;
+* **Modified**: Arquivo modificado;
+* **Staged**: Arquivo adicionado ao staged com o commando **git add**.
+
+![fluxo dos arquivos no git](imagens/fluxo-arquivos-do-git.png)
+
 ## Commandos
 
-### Verificar versão
+### Verificar versão do git instalada
 
 ```md
 git --version
+```
+
+### Listar commit executados
+
+```md
+git log
+```
+
+### Criar repositório localmente
+
+Inicia um repositório vazio em sua máquina, adicionando uma pasta chamada ".git"
+
+```md
+git init
+```
+
+Iniciar um repositório central (bare), usado para armazenar outros repositórios, algo como os repositórios no github.
+
+Os repositórios do tipo bare são usados para centralizar o trabalho de diversos outros repositórios que enviam objetos, ele propriamente não possui Working Dir e não permite trabalhar diretamente nele.
+
+Um repositório bare não contem um working directory com checkout de código, em outras palavras, pense nele como somente um diretório ".git" (o banco de dados do Git) sem nada alem disto.
+
+Usado para quando precisamos criar um servidor Git.
+
+```md
+git init --bare
+```
+
+Para subir um repositório já iniciado na sua máquina para o github, podemos utilizar o comando abaixo para relacionar o repositório criado na nossa máquina, com o repositório presente no github
+
+```md
+git remote add origin url-do-repositorio
+```
+
+Após isto só é preciso enviar os dados deste repositório para o github:
+
+```md
+git push -u origin master
+```
+
+### Copiando um repositório para sua máquina
+
+```md
+git clone url-do-repositorio
+```
+
+### Adicionar arquivos editados como staged
+
+```md
+git add [<nome-dos-arquivos-editados>...]
+// Para adicionar tudo
+git add .
+```
+
+### Juntar arquivos no staged como um grupo de alterações
+
+```md
+git commit -m "Explicação das alterações executadas nos arquivos do staged"
 ```
