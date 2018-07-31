@@ -245,7 +245,7 @@ git push -u origin master
 git clone url-do-repositorio
 ```
 
-## Comandos comuns
+## Comandos básicos com git
 
 ### Status
 
@@ -308,6 +308,30 @@ Atualiza as referencias com um repositório remoto
 
 ```bash
 git fetch origin
+```
+
+## Gitignore
+
+É utilizado para bloquear o envio de certos arquivos para o repositório, onde estes são somente necessários durante o desenvolvimento.
+
+Podemos bloquear estes arquivos com o arquivo **.gitignore**, onde todos os nomes dos arquivos ou pastas adicionados dentro dele, serão ignorados pelos comandos do git, podendo tambem ser adicionados nomes com regex.
+
+Pode-se criar um arquivo **.gitignore** global para que assim, todos os seus repositórios ignorarão os arquivos adicionados dentro do **.gitignore** global.
+Este arquivo fica como padrão armazenado em **$HOME/.config/git/ignore**, sendo utilizado principalmente para ignorar certos arquivos criados de IDEs ou arquivos que o sistema operacional cria por exemplo.
+Para criar um **.gitignore** global especifico, podemos usar o comando:
+
+```bash
+git config --global core.excludesfile ~/.gitignore_global
+// Para verificar se foi criado dentro das configurações globais
+git config --global --get core.excludesfile
+```
+
+Podemos criar um arquivo **.gitignore** dentro da pasta raiz do nosso repositório local, assim podemos ignorar arquivos especificos deste repositório, alem de poder deixar o arquivo **.gitignore** dentro do repositório remoto, para que outros usuários tambem ignorem os arquivos selecionados.
+
+Quando precisamos remover um arquivo que já foi comitado, onde não precisamos ele mais dentro do repositório, podemos usar o comando:
+
+```bash
+git rm <nome-do-arquivo>
 ```
 
 ## Commandos Extras
