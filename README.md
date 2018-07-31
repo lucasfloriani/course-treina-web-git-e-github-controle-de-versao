@@ -201,6 +201,10 @@ Executando **git commit** rotulando assim os arquivos do staged e deixando no re
 
 ![Legumes Repository](imagens/legumes-repository.png)
 
+## Ações dos comandos no fluxo básico
+
+![Fluxo Padrão](imagens/fluxo-padrao.png)
+
 ## Commandos
 
 ### Verificar versão do git instalada
