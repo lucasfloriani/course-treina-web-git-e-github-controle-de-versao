@@ -599,6 +599,119 @@ Podendo assim executar o seguinte comando:
 git lg
 ```
 
+## Estratégias de Branches
+
+As estratégias de branches propõem modos para trabalharmos com as nossas branchs de modo que o trabalho fique mais organizado e padronizado para toda a equipe. As estratégias de branches não são obrigatórias e nem precisam ser seguidas à risca, porém possuir uma estratégia para sua equipe é extremamente importante.
+
+### Estabilidade do branch
+
+* **Stable Trunk (Trunk-Based Development)**: Nesse tipo de desenvolvimento temos uma branch maaster com o código sempre estável. Novas funcionalidades são criadas a partir de branches locais e temporárias e são combinadas de volta com a master assim que atingem um ponto estável;
+* **Unstable Trunk**: Esse caso dá mais flexibilidade ao _developer_ pois não é preciso garantir que o código esteja estável no master. Tanto novas funcionalidades e bugfixes são aplicadas no master. Para criar um novo release, é criada uma nova branch a partir do master e caso seja necessário novos commits para estabilizar a branch, só esses commits voltam para o master (usando cherry-pick), e não há uma nova combinação das branches.
+* **Integration Pipelines**: Aqui a branch master contém o código estável e mais atualizado possível. As branches de funcionalidades são criadas a partir do master e vários _developers_ trabalham em paralelo cada um em sua branch. Ao final das branches são combinadas numa nova branch de integração, que servirá como base de um novo release. Assim que validado o código da branch de integração pelos _testers_, a branch de integração é combinada com o master, podendo ser descartada essa branch logo em seguida.
+
+### Lone Wolf (Single branch ou trunk)
+
+Ela é indicada caso você seja o único integrante de um projeto específico onde você atual com todas as funções do projeto, essa estratégia pode ser interessante. Ela consiste no uso de uma única branch, onde todo trabalho e alterações são enviadas ali e como único responsável pelo deploy do projeto, você saberá o momento certo para tal.
+
+![Lone Wolf Example](imagens/lone-wolf-example.png)
+
+### GitHub Flow (Linear Git ou Feature branch workflow)
+
+Consistem em utilizar branches temporárias para a criação de novas funcionalidades e as mesma são combinadas de volta na branch master. É um fluxo bem simples e tem como vantagem, se comparado com a estratégia Lone Wolf, permitir linhas de desenvolvimento paralelas para testar novas funcionalidades enquanto o código de produção se mantém estável.
+
+Geralmente ele segue um workflow de merge e podemos utilizar os recursos de Pull Requests do Github para ajudar nessa etapa, resultando então em branchs de features públicas e temporárias.
+
+![GitHub Flow](imagens/github-flow-example.png)
+
+### Atlassian Simple Git Flow
+
+É uma variação do GitHub Flow, porém utilizando um workflow de rebase. Como consequência um histórico de commits mais limpo é criado, o que facilita a vida do bug hunter. Porém tenha em mente que as branches de features serão temporárias e locais, o que pode dificultar no processo de review de código.
+
+Dependendo dos integrantes da equipe, podemos incluir branches para o código em desenvolvimento e o release estável nas duas estratégias anteriores.
+
+É comum encontrar projetos com duas branches públicas e permanentes nomeados como master e develop, onde o master tem o código estável e com tags de release enquanto o develop tem o código mais recente.
+
+## GitLab Flow
+
+Quando temos etapas extras em nosso processo de desenvolvimento, como camadas de integração de sistemas, gerenciamento de releases e um controle automatizado de deploy, as estratégias anteriores podem não suprir todas essas necessidades.
+
+Para esses casos podemos utilizar o [gitlab-flow](https://about.gitlab.com/2014/09/29/gitlab-flow/). A sua proposta é a criação de branches de integração para cada ambiente de desenvolvimento (diga-se staging e production) e as ações nessas branches disparam hooks para iniciar um processo de deploy automatizado para um ambiente em específico.
+
+É importante salientar que nesse tipo de estratégia o papel de integrador é bem importante, pois é ele quem é o responsável em combinar as features branches criadas pelos desenvolvedores a partir da branch master.
+
+Em casos de várias versões de releases, é recomendado manter versões diferentes do master, com algo como o número do release como seu nome (branch 2-3-stable para a versão 2.3.x do sistema). Um exemplo similar dessas releases de suporte pode ser encontrado no repositório do [Laravel framework](https://github.com/laravel/framework).
+
+Exemplo:
+
+![GitLab Flow Example](imagens/gitlab-flow-example.png)
+
+### GitFlow
+
+Uma forma de organizar nossos branches é através do GitGlow. Esse [modelo](http://nvie.com/posts/a-successful-git-branching-model/) foi sugerido por Vicent Driessen em 2010 e é bem popular devido a yna extensão que leva o mesmo nome. A grande vantagem nessa extensão é a padronização na forma que a equipe irá trabalhar no repositório. O uso da extensão é menos propenso a falhas pois a equipe usa comandos mais amigáveis para manipular, criar e combinas as branches.
+
+Esse modelo resulta na seguinte organização de branches.
+
+![GitFlow Example](imagens/gitflow-example.png)
+
+* **Master**: É a branch estável do projeto. Nela é onde temos o código pronto para ser enviado para produção e nela é que vao as tags do projeto.
+
+* **Develop**: A branch develop é baseada no master e a partir dela são criados as novas funcionalidades do sistema, que são as branches de features.
+
+* **Feature**: É aqui onde as novas funcionalidades são criadas e depois são combinadas com develop.
+
+* **Release**: Após uma série de **Features** serem entregues, existem um passo de release antes de cominar o conteúdo de develop com a master. Alguns commits de preparação podem ser criados nessa etapa para garantir a qualidade do código gerado. Após finalizado, essas alterações são combinadas devolta em ambas as branches develop e master, e uma tag de release é criada automaticamente na master.
+
+* **Hotfix**: Ao notar um bug em produção, o processo de correção geralmente acontece de maneira segregada das features convencionais. Um hotfix é criado a partir do master e combinado devolta em dois sentidos com o master, para garantir que o bug seja resolvido, e com o develop, para assim evitar uma possível regressão do bug.
+
+Mais detalhes sobre o fluxo dessas estratégias e os comando para executar essas ações podem ser consultados nessa [página](http://danielkummer.github.io/git-flow-cheatsheet/index.pt_BR.html)
+
+#### Extensão de linha de comando (git flow)
+
+O git flow utiliza-se de uma extensão de linha de comando para criar os respectivos branches.
+
+Para iniciar um repositório git flow usando o comando abaixo, onde ao usar o comando o mesmo ira realizar uma serie de perguntas sobre os nomes das branches utilizadas.
+
+```bash
+git flow init
+```
+
+Para criar uma nova feature (nova branch), usamos o comando:
+
+```bash
+git flow feature start <nome-da-feature>
+```
+
+Para adicionar a branch local para o repositório remoto, usamos o comando:
+
+```bash
+git flow feature publish
+```
+
+Para finalizar as alterações da nova branch de feature, executando assim o merge automaticamente para a branch develop, usamos o comando:
+
+```bash
+git flow feature finish
+```
+
+Após realizar a finalização da feature, devemos enviar as alterações realizadas a branch develop com:
+
+```bash
+git push origin develop
+```
+
+Para criar uma release usamos o seguinte código:
+
+```bash
+// Por exemplo: git flow release start 1.0.0
+git flow release start <nome-do-release>
+```
+
+Para finalizarmos uma release usamos o seguinte código:
+
+```bash
+git flow release finish 'nome da branch'
+```
+
 ## Commandos Extras
 
 ### Verificar versão do git instalada
