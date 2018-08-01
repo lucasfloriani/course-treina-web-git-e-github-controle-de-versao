@@ -740,6 +740,60 @@ Para enviar a tag criada no repositório local para o remoto, usamos:
 git push origin --tags
 ```
 
+## Resolvendo conflitos de branches
+
+Somente são resolvidos no repositório local.
+
+Primeiro executamos o merge das branches
+
+```bash
+git merge <nome-da-branch>
+```
+
+Após isto recebemos uma mensagem dizendo sobre alguns conflitos relacionados aos commits, onde precisamos resolve-los antes de realizar o merge
+
+Com o comando **git status** podemos ver quais os arquivos contem conflito.
+
+Se abrirmos esse arquivo, poderemos analisar o código das 2 branches que estão em conflito como o exemplo abaixo:
+
+```node
+// <<<<<<<<<<< HEAD (Branch atual)
+teste 1
+===========
+teste 2
+// >>>>>>>>>>> origin/merge-exercise (nome da branch a realizar merge)
+```
+
+Ao verificar isto podemos escolher uma das 2 opções de código ou adicionar um novo código manualmente para juntar as 2 lógicas em uma só.
+
+Podemos utilizar o comando abaixo para verificar as diferenças dos arquivos em conflito.
+
+```bash
+git diff
+```
+
+Caso queiramos escolher uma das 2 opções dos códigos das branches, utilizamos o commando:
+
+```bash
+// Branch atual
+git checkout --ours <nome-do-arquivo>
+// Ou todos de uma vez
+git checkout --ours .
+
+// Outra branch
+git checkout --theirs <nome-do-arquivo>
+// Ou todos de uma vez
+git checkout --theirs .
+```
+
+Após isto, realizamos um novo commit com os arquivos editados e enviamos com **git commit**
+
+Podemos abortar o merge caso seja necessário com o comando:
+
+```bash
+git merge -about
+```
+
 ## Commandos Extras
 
 ### Verificar versão do git instalada
