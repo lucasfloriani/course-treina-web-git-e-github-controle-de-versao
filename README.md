@@ -631,7 +631,7 @@ Dependendo dos integrantes da equipe, podemos incluir branches para o código em
 
 É comum encontrar projetos com duas branches públicas e permanentes nomeados como master e develop, onde o master tem o código estável e com tags de release enquanto o develop tem o código mais recente.
 
-## GitLab Flow
+### GitLab Flow
 
 Quando temos etapas extras em nosso processo de desenvolvimento, como camadas de integração de sistemas, gerenciamento de releases e um controle automatizado de deploy, as estratégias anteriores podem não suprir todas essas necessidades.
 
@@ -710,6 +710,34 @@ Para finalizarmos uma release usamos o seguinte código:
 
 ```bash
 git flow release finish 'nome da branch'
+```
+
+## Tags
+
+São referências amigáveis que podemos atrelar a um commit específico como um apelido.
+
+Para criar uma tag e adicionar ela ao ultimo commit da branch atual, utilizamos o seguinte comando:
+
+```bash
+git tag <nome-da-tag>
+```
+
+Para listar as tags:
+
+```bash
+git tag
+```
+
+Para ir até o commit que contem a tag criada, usamos o seguinte comando:
+
+```bash
+git checkout <nome-da-tag>
+```
+
+Para enviar a tag criada no repositório local para o remoto, usamos:
+
+```bash
+git push origin --tags
 ```
 
 ## Commandos Extras
