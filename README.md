@@ -511,6 +511,60 @@ Mas em alguns casos não será possível combinar as branches com fast forward, 
 
 ![3 Way Merge](imagens/3-way-merge.png)
 
+### Rebase
+
+O rebase possibilita recriar o histórico de commits alterando suas mensagens, combinando muitos commits em um, descartando completamente algumas alterações e alterando a hierarquia dos commits, mudando a base de uma série de commits.
+
+Pelo fato de alterar as referências dos commits do git, precisamos de certa cautela ao fazer o rebase.
+
+#### Utilizando o Rebase
+
+Primeiro buscamos os commits a frente que estão presente no repositório remoto utilizando o comando abaixo:
+
+```bash
+git pull --rebase [origin master]
+```
+
+O parâmetro _--rebase_ é utilizado para fazer um _fast forward_ caso já haja commits na branch escolhida, permanecendo assim um fluxo em linha. Caso não utilize-o, é possivel que o pull realize um _3-Way Merge_.
+
+Para realizarmos o _rebase_, entramos na branch que será anexada a outra (branch-1) e realizaremos o seguinte código:
+
+```bash
+git rebase <nome-da-branch-que-recebera-os-commits>
+```
+
+Após usar o comando _rebase_, utilizamos o merge para juntar as 2 branches, agora que está preparado o fluxo para executar o _fast forward_ do _merge_
+
+```bash
+git merge <nome-da-branch-com-os-dados-a-serem-anexados>
+```
+
+OBS: Após a execução do _rebase_ os commits da branch anexada são excluidas (tem novas hashs) pois foram anexadas a branch alvo.
+
+#### Rebase iterativo
+
+Podemos tambem realizar um rebase iterativo, onde pode-se alterar a ordens dos commits, nomes, etc
+
+```bash
+git rebase <nome-da-branch-que-recebera-os-commits> -i
+```
+
+Para realizar as ações dentro do rebase iterativo, usamos os seguintes comandos:
+
+* **p, pick**: usa o commit daquela linha;
+* **r, reword**: usa o commit e permite a edição da sua mensagem;
+* **e, edit**: usa commit, fazendo uma pausa para adicionar mais alterações (-ammed)
+* **s, squash**: usa as alterações do commit, juntando ela com o commit anterior;
+* **f, fixup**: parecido com squash, porém desconsidera a mensagem de log do commit;
+* **x, exec**: executa um comando na linha de comando (útil para automatizações);
+* **d, drop**: remove o commit.
+
+#### Cancelar Rebase
+
+```bash
+git rebase --abort
+```
+
 ## Commandos Extras
 
 ### Verificar versão do git instalada
