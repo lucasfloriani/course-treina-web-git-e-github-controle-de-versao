@@ -565,16 +565,44 @@ Para realizar as ações dentro do rebase iterativo, usamos os seguintes comando
 git rebase --abort
 ```
 
+## Histórico de commits
+
+```bash
+git log
+```
+
+Caso queira customizar a listagem dos commits, podemos utilizar as seguintes flags:
+
+* **--oneline**: Condensa o histórico de commits em uma linha por commit;
+* **--color**: Tenta colorir o output para um resultado mais agradável
+* **--graph**: Monta o gráfico das branchs em modo texto;
+* **--abbrev-commit**: Abrevia o hash do commit. A flag do **--oneline** já faz isso;
+* **--pretty**: Permite que sejam utilizados placeholders para as informações dos commits. A lista completa de opções você entra ao executar git log --help
+
+Exemplo:
+
+```bash
+git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+```
+
+![Custom Git Log](imagens/custom-git-log.png)
+
+Se preferir, é possível definir apelidos para os comandos internos do git, assim temos um log customizado e de fácil execução:
+
+```bash
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+```
+
+Podendo assim executar o seguinte comando:
+
+```bash
+git lg
+```
+
 ## Commandos Extras
 
 ### Verificar versão do git instalada
 
 ```bash
 git --version
-```
-
-### Listar commit executados
-
-```bash
-git log
 ```
