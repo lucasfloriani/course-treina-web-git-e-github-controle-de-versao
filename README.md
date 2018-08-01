@@ -794,6 +794,124 @@ Podemos abortar o merge caso seja necessário com o comando:
 git merge -about
 ```
 
+## Desfazendo alterações
+
+Alguns dos métodos listados aqui irão alterar o estado dos seus commits. Por mais que seja ruim ter commits desnecessários no repositório, procure executar esses comandos somente em branches privadas, para não precisar forçar um push.
+
+### Git Reset
+
+O primeiro comando (e o mais perigoso) para desfazer mudanças é o git reset. Com ele podemos remover os commits do novo repositório, o que não é aconselhável em branches públicas, pois mesmo que esses commits sejam removidos no repositório local, eles ainda podem voltar com um pull. O que vai acontecer com as modificações que realizamos irá depender de um argumento que vamos passar. O reset possui três modos: **--mixed**, **--soft**, **--hard**.
+
+#### Mixed
+
+O modo padrão, onde as áreas de staging e o repositório irão sofrer alterações, mantendo o nosso working dir intecto. Isso é útil nos casos que queremos desfazer partes das alterações e criar um novo commit em seguida.
+
+```bash
+git reset --mixed HEAD
+// ou
+git reset HEAD
+```
+
+#### Soft
+
+Similar ao **mixed**, porém ele mantém o staging como está.
+
+```bash
+git reset --soft HEAD
+```
+
+#### Hard
+
+Desfaz tudo a partir de um commit específico.
+
+```bash
+git reset --hard HEAD
+```
+
+Podemos ver de forma mais visual esses modos no diagrama a seguir:
+
+![Git Reset Example](imagens/git-reset-example.png)
+
+É bem comum aplicar o reset nos commits mais recentes, digamos que nos últimos 3 commits. Podemos referenciar esses commits de forma relativa com o HEAD na forma de HEAD~3
+
+### Git Checkout
+
+Internamente o checkout move a referencia do HEAD para o commit topo de uma outra branch. Como ele pode alterar o working dir, pode ser socilitado que você envie as alterações atuais antes de executar esse comando.
+
+Além de branchs, podemos apontar um commit específico, ou até uma referência com base no HEAD atual.
+
+Com o comando abaixo podemos retornar todas as alterações que foram feitas do arquivo no estado **not staged**:
+
+```bash
+git checkout <nome-do-arquivo>
+```
+
+### Git Revert
+
+Enquanto o git reset não deve ser utilizado em branches pública, o git revert é feito exatamente para isso. Ao invés de modificar o histórico de commits, o revert cria um novo commit que o inverso do commit desejado. Assim o resultado final é o estado anterior sem alterar o histórico dos commits, o que o torna a opção ideal para repositórios públicos.
+
+Usado para reverter os commits até um específico.
+
+```bash
+git revert <hash-do-commit-especifico>
+```
+
+### Contexto de arquivos
+
+Nós podemos utilizar os comandos reset e checkout em alguns arquivos específicos, porém as suas funcionlidades são bem diferentes. Isso é bem útil quando queremos reverter alguma alteração em poucos arquivos só, sem nos preocupar de voltar o estado completo do commit.
+
+Outro ponto é que os modos mixed, soft e hard não tem efeito ao serem aplicados em arquivos, e muitas vezes quando estamos nesse contexto, estamos desfazendo algo em nosso dir.
+
+Nesse contexto, usamos o reset para restaurar as mudanças na área de staging enquanto o checkout restaura os arquivos no working dir.
+
+Vejamos alguns exemplos dos comando vistos até aqui:
+
+Descarta e elemina as alterações do último commit:
+
+```bash
+git reset HEAD~1 --hard
+```
+
+Move o HEAD para dois commits anteriores
+
+```bash
+git checkout HEAD~2
+```
+
+Descarta as alterações desde o último commit da master, mas mantém as alterações no working dir e no staging:
+
+```bash
+git reset master --soft
+```
+
+Reverte as alterações de um commit específico e cria um novo commit:
+
+```bash
+git revert <hash-do-commit>
+```
+
+Restaura para o staging as alterações do arquivo foo.txt em dois commits atrás:
+
+```bash
+git reset HEAD~2 foo.text
+```
+
+Recupera diretamente no working dir o arquivo xpto.txt:
+
+```bash
+git checkout -- xpto.txt
+```
+
+Abaixo temos uma tabela de consulta rápida de quando usar cada um dos comandos:
+
+| Comando | Escopo | Uso |
+|---|---|---|
+| git reset | Commit | Descartar commits em branches locais ou alterações ainda não envidadas |
+| git reset | Arquivo | Altera o staging do arquivo |
+| git checkout | Commit | Troca entre branches ou commits pontuais |
+| git checkout | Arquivo | Descarta alterações no working dir |
+| git revert | Commit | Desfazer commits em branches públicas |
+
 ## Commandos Extras
 
 ### Verificar versão do git instalada
