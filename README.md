@@ -912,6 +912,24 @@ Abaixo temos uma tabela de consulta rápida de quando usar cada um dos comandos:
 | git checkout | Arquivo | Descarta alterações no working dir |
 | git revert | Commit | Desfazer commits em branches públicas |
 
+## Dicas GitHub
+
+### Adicionar arquivos ao staged interativamente
+
+```bash
+git add --patch
+```
+
+Ao usar o ponto de interrogação (?), podemos verificar os comandos possíveis para utilizar neste helper.
+
+### Trabalhando com repositórios grandes
+
+Para baixar mais rapidamente os repositórios grandes, podemos passar um argumento para pegar somente os ultimos n commits do repositório:
+
+```bash
+git clone git@github.com:laravel/framework.git --depth 100
+```
+
 ## Commandos Extras
 
 ### Verificar versão do git instalada
